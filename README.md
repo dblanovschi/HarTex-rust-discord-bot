@@ -1,1 +1,1 @@
-# HarTex.rust-discord-bot
+# HarTex Bot
