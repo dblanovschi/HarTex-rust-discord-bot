@@ -1,0 +1,55 @@
+[package]
+name = "hartex_rewrite"
+version = "1.15.10"
+description = "HarTex Rewrite Discord Bot in Rust, as a replacement for the C# version."
+edition = "2018"
+
+# Third Party Crates
+
+[dependencies]
+base64 = "0.13.0"
+chrono = "0.4.19"
+compound_duration = "1.2.0"
+csv = "1.1.5"
+ctrlc = "3.1.7"
+dashmap = "4.0.2"
+dotenv = "0.15.0"
+futures-channel = "0.3.12"
+futures-util = "0.3.12"
+pad = "0.1.6"
+quick-xml = { version = "0.20.0", features = [ "serialize" ] }
+rand = "0.8.3"
+regex = "1.4.3"
+serde = "1.0.123"
+serde_derive = "1.0.123"
+serde_json = "1.0.61"
+sha3 = "0.9.1"
+sqlx = { git = "https://github.com/launchbadge/sqlx.git", default-features = false, features = [ "postgres", "runtime-tokio-native-tls" ], branch = "master" }
+sysinfo = "0.15.9"
+tokio = { version = "1.1.1", features = [ "full" ] }
+tokio-stream = "0.1.2"
+tokio-postgres = "0.7.0"
+twilight-cache-inmemory = "0.3.1"
+twilight-embed-builder = "0.3.0"
+twilight-gateway = "0.3.2"
+twilight-gateway-queue = "0.3.0"
+twilight-http = "0.3.4"
+twilight-mention = "0.3.0"
+twilight-model = "0.3.2"
+twilight-standby = "0.3.0"
+twilight-util = { version = "0.3.0", features = [ "snowflake" ] }
+unicase = "2.6.0"
+
+[patch.crates-io]
+lexical-core = { path = "lexical-core" }
+
+[workspace]
+members = [
+    "lexical-core"
+]
+
+[profile.dev]
+opt-level = 1
+
+[profile.release]
+opt-level = 3
