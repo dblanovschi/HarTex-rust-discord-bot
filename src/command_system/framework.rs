@@ -12,7 +12,8 @@ use crate::command_system::{
         CommandParser,
         CommandParserConfiguration,
     },
-    Command
+    Command,
+    cfg::{CaseSensitivity, UseFullyQualifiedName, EnabledAliases},
 };
 
 #[derive(Clone)]
@@ -29,18 +30,17 @@ impl<'a> CommandFramework<'a> {
         }
     }
 
-    crate fn command<T>(mut self, command: T, case_sensitive: bool, fully_qualified_name: bool, enable_aliases: bool) -> Self
+    crate fn command<T>(mut self, command: T, case_sensitive: CaseSensitivity, fully_qualified_name: UseFullyQualifiedName, enable_aliases: EnabledAliases) -> Self
     where T: Command {
         self
             .command_parser_config
             .add_command(
-                if fully_qualified_name {
-                    command.fully_qualified_name()
-                } else {
-                    command.name()
+                match fully_qualified_name {
+                    UseFullyQualifiedName::True => command.fully_qualified_name(),
+                    UseFullyQualifiedName::False => command.name(),
                 }, case_sensitive);
 
-        if enable_aliases {
+        if matches!(enable_aliases, EnabledAliases::True) {
             for alias in command.aliases() {
                 self.command_parser_config.add_command(alias, case_sensitive);
             }

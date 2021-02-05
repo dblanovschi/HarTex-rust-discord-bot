@@ -7,6 +7,7 @@ use std::{
         IterMut
     }
 };
+use crate::command_system::cfg::CaseSensitivity;
 
 #[derive(Clone, Debug, Default)]
 crate struct CommandParserConfiguration<'a> {
@@ -48,15 +49,14 @@ impl<'a> CommandParserConfiguration<'a> {
         }
     }
 
-    crate fn add_command(&mut self, name: impl Into<String>, case_sensitive: bool) -> bool {
+    crate fn add_command(&mut self, name: impl Into<String>, case_sensitive: CaseSensitivity) -> bool {
         self._internal_add_command(name.into(), case_sensitive)
     }
 
-    fn _internal_add_command(&mut self, name: String, case_sensitive: bool) -> bool {
-        let command = if case_sensitive {
-            CaseSensitive::False(name)
-        } else {
-            CaseSensitive::True(name.into())
+    fn _internal_add_command(&mut self, name: String, case_sensitive: CaseSensitivity) -> bool {
+        let command = match case_sensitive {
+            CaseSensitivity::False => CaseSensitive::False(name),
+            CaseSensitivity::True => CaseSensitive::True(name.into()),
         };
 
         if self.commands.contains(&command) {
